@@ -24,7 +24,10 @@ class Organizations extends Api
     /**
      * Organization details (permission needed: #organization:read)
      * Get information about a specific organization that you are a member of
+     *
      * @param string $identifier
+     *
+     * @return array
      */
     public function organization($identifier)
     {
@@ -34,8 +37,11 @@ class Organizations extends Api
     /**
      * Update organization (permission needed: #organization:edit)
      * Update an existing Organization
+     *
      * @param string|null $identifier
-     * @param string|null $name       Organization Name
+     * @param string|null $name Organization Name
+     *
+     * @return array
      */
     public function update($identifier = null, $name = null)
     {

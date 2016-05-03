@@ -22,7 +22,10 @@ class Railguns extends Api
 
     /**
      * Create Railgun (permission needed: #railgun:edit)
+     *
      * @param string $name Readable identifier of the railgun
+     *
+     * @return array
      */
     public function create($name)
     {
@@ -35,9 +38,12 @@ class Railguns extends Api
     /**
      * List Railguns (permission needed: #railgun:read)
      * List, search, sort and filter your Railguns
-     * @param int|null     $page      Page number of paginated results
-     * @param int|null     $per_page  Number of items per page
-     * @param string|null  $direction Direction to order Railguns (asc, desc)
+     *
+     * @param int|null    $page      Page number of paginated results
+     * @param int|null    $per_page  Number of items per page
+     * @param string|null $direction Direction to order Railguns (asc, desc)
+     *
+     * @return array
      */
     public function railguns($page = null, $per_page = null, $direction = null)
     {
@@ -51,7 +57,10 @@ class Railguns extends Api
 
     /**
      * Railgun details (permission needed: #railgun:read)
+     *
      * @param string $identifier API item identifier tag
+     *
+     * @return array
      */
     public function details($identifier)
     {
@@ -61,7 +70,10 @@ class Railguns extends Api
     /**
      * Get zones connected to a Railgun (permission needed: #railgun:read)
      * The zones that are currently using this Railgun
+     *
      * @param string $identifier API item identifier tag
+     *
+     * @return array
      */
     public function zones($identifier)
     {
@@ -71,8 +83,11 @@ class Railguns extends Api
     /**
      * Enable or disable a Railgun (permission needed: #railgun:edit)
      * Enable or disable a Railgun for all zones connected to it
+     *
      * @param string    $zone_identifier API item identifier tag
      * @param bool|null $enabled         Flag to determine if the Railgun is accepting connections
+     *
+     * @return array
      */
     public function enabled($zone_identifier, $enabled = null)
     {
@@ -85,7 +100,10 @@ class Railguns extends Api
     /**
      * Delete Railgun (permission needed: #railgun:edit)
      * Disable and delete a Railgun. This will immediately disable the Railgun for any connected zones
+     *
      * @param string $identifier API item identifier tag
+     *
+     * @return array
      */
     public function delete_railgun($identifier)
     {

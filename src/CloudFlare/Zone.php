@@ -22,9 +22,12 @@ class Zone extends Api
 
     /**
      * Create a zone (permission needed: #zone:edit)
-     * @param string       $domain       The domain name
-     * @param boolean|null $jump_start   Automatically attempt to fetch existing DNS records
-     * @param int|null     $organization To create a zone owned by an organization, specify the organization parameter. Organization objects can be found in the User or User's Organizations endpoints. You must pass at least the ID of the organization.
+     *
+     * @param      $name
+     * @param null $jump_start
+     * @param null $organization
+     *
+     * @return array
      */
     public function create($name, $jump_start = null, $organization = null)
     {
@@ -38,7 +41,10 @@ class Zone extends Api
 
     /**
      * Initiate another zone activation check (permission needed: #zone:edit)
-     * @param string $identifier API item identifier tag
+     *
+     * @param $identifier
+     *
+     * @return array
      */
     public function activation_check($identifier) {
         return $this->put('zones/' . $identifier . '/activation_check');
@@ -47,13 +53,16 @@ class Zone extends Api
     /**
      * List zones (permission needed: #zone:read)
      * List, search, sort, and filter your zones
-     * @param string|null $name      A domain name
-     * @param string|null $status    Status of the zone (active, pending, initializing, moved, deleted)
-     * @param int|null    $page      Page number of paginated results
-     * @param int|null    $per_page  Number of zones per page
-     * @param string|null $order     Field to order zones by (name, status, email)
-     * @param string|null $direction Direction to order zones (asc, desc)
-     * @param string|null $match     Whether to match all search requirements or at least one (any) (any, all)
+     *
+     * @param null $name
+     * @param null $status
+     * @param null $page
+     * @param null $per_page
+     * @param null $order
+     * @param null $direction
+     * @param null $match
+     *
+     * @return array
      */
     public function zones($name = null, $status = null, $page = null, $per_page = null, $order = null, $direction = null, $match = null)
     {
@@ -71,7 +80,10 @@ class Zone extends Api
 
     /**
      * Zone details (permission needed: #zone:read)
-     * @param string $zone_identifier API item identifier tag
+     *
+     * @param $zone_identifier
+     *
+     * @return array
      */
     public function zone($zone_identifier)
     {

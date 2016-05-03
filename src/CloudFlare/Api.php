@@ -66,6 +66,8 @@ class Api
             $this->email    = $parameters[0];
             $this->auth_key = $parameters[1];
         }
+
+        return $this;
     }
 
     /**
@@ -98,8 +100,11 @@ class Api
 
     /**
      * API call method for sending requests using GET
+     *
      * @param string     $path Path of the endpoint
      * @param array|null $data Data to be sent along with the request
+     *
+     * @return array
      */
     public function get($path, array $data = null)
     {
@@ -108,8 +113,11 @@ class Api
 
     /**
      * API call method for sending requests using POST
+     *
      * @param string     $path Path of the endpoint
      * @param array|null $data Data to be sent along with the request
+     *
+     * @return array
      */
     public function post($path, array $data = null)
     {
@@ -118,8 +126,11 @@ class Api
 
     /**
      * API call method for sending requests using PUT
+     *
      * @param string     $path Path of the endpoint
      * @param array|null $data Data to be sent along with the request
+     *
+     * @return array
      */
     public function put($path, array $data = null)
     {
@@ -128,8 +139,11 @@ class Api
 
     /**
      * API call method for sending requests using DELETE
+     *
      * @param string     $path Path of the endpoint
      * @param array|null $data Data to be sent along with the request
+     *
+     * @return array
      */
     public function delete($path, array $data = null)
     {
@@ -138,8 +152,11 @@ class Api
 
     /**
      * API call method for sending requests using PATCH
+     *
      * @param string     $path Path of the endpoint
      * @param array|null $data Data to be sent along with the request
+     *
+     * @return array
      */
     public function patch($path, array $data = null)
     {
@@ -147,35 +164,37 @@ class Api
     }
 
     /**
-     * Retrieves the users' permisison levels
+     * Retrieves the users' permission levels
      */
     public function permissions()
     {
         if(!$this->permissions) {
             $api = new User($this->email, $this->auth_key);
             $user = $api->user();
-            if(!$user->result->organizations[0]) {
+            if(isset($user['result']) && !isset($user['result']['organizations'][0])) {
                 $this->permissions = array('read' => true, 'write' => true);
             } else {
-                $this->permissions = $user->result->organizations[0]->permissions;
+                $this->permissions = $user['result']['organizations'][0];
             }
         }
         return $this->permissions;
     }
 
     /**
-     *
      * @codeCoverageIgnore
-     *
      * API call method for sending requests using GET, POST, PUT, DELETE OR PATCH
+     *
      * @param string      $path             Path of the endpoint
      * @param array|null  $data             Data to be sent along with the request
      * @param string|null $method           Type of method that should be used ('GET', 'POST', 'PUT', 'DELETE', 'PATCH')
      * @param string|null $permission_level Permission level required to preform the action
+     *
+     * @return array
+     * @throws Exception
      */
     protected function request($path, array $data = null, $method = null, $permission_level = null)
     {
-        if(!isset($this->email) || !isset($this->auth_key)) {
+        if (!isset($this->email) || !isset($this->auth_key)) {
             throw new Exception('Authentication information must be provided');
             return false;
         }
@@ -183,11 +202,13 @@ class Api
         $method = (is_null($method) ? 'get' : $method);
         $permission_level = (is_null($permission_level) ? 'read' : $permission_level);
 
-        if(!is_null($this->permission_level[$permission_level])) {
-            if(!$this->permissions) {
+        if (!is_null($this->permission_level[$permission_level])) {
+            if (!$this->permissions) {
                 $this->permissions();
             }
-            if(!isset($this->permissions) || !in_array($this->permission_level[$permission_level], $this->permissions)) {
+            if (!isset($this->permissions) || 
+                (!in_array($this->permission_level[$permission_level], $this->permissions) && 
+                    !$this->permissions[$permission_level])) {
                 throw new Exception('You do not have permission to perform this request');
                 return false;
             }
@@ -223,7 +244,8 @@ class Api
         if($method === 'post') {
             curl_setopt($ch, CURLOPT_POST, true);
             //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            $headers[] = "Content-type: application/json";
         } else if ($method === 'put') {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -255,11 +277,12 @@ class Api
                 'error'       => $error,
                 'http_code'   => $http_code,
                 'method'      => $method,
-                'result'      => $http_result,
+                'result'      => json_decode($http_result, true),
                 'information' => $information
             );
         } else {
-            return json_decode($http_result);
+            $result = json_decode($http_result, true);
+            return $result;
         }
     }
 }

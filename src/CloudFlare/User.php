@@ -31,11 +31,15 @@ class User extends Api
     /**
      * Update user
      * Update part of your user details
+     *
      * @param string|null $first_name User's first name
      * @param string|null $last_name  User's last name
      * @param string|null $telephone  User's telephone number
-     * @param string|null $country    The country in which the user lives. (Full list is here: http://en.wikipedia.org/wiki/List_of_country_calling_codes)
+     * @param string|null $country    The country in which the user lives. (Full list is here:
+     *                                http://en.wikipedia.org/wiki/List_of_country_calling_codes)
      * @param string|null $zipcode    The zipcode or postal code where the user lives.
+     *
+     * @return array
      */
     public function update($first_name = null, $last_name = null, $telephone = null, $country = null, $zipcode = null)
     {
@@ -51,9 +55,12 @@ class User extends Api
 
     /**
      * Change your email address. Note: You must provide your current password.
+     *
      * @param string $email         Your contact email address
      * @param string $email_confirm Your contact email address, repeated
      * @param string $password      Your current password
+     *
+     * @return array
      */
     public function change_email($email, $email_confirm, $password)
     {
@@ -67,9 +74,12 @@ class User extends Api
 
     /**
      * Change your password
+     *
      * @param string $old_password         Your current password
      * @param string $new_password         Your new password
      * @param string $new_password_confirm Your new password, repeated
+     *
+     * @return array
      */
     public function change_password($old_password, $new_password, $new_password_confirm)
     {
@@ -83,8 +93,11 @@ class User extends Api
 
     /**
      * Change your username. Note: You must provide your current password.
+     *
      * @param string $username A username used to access other cloudflare services, like support
      * @param string $password Your current password
+     *
+     * @return array
      */
     public function change_username($username, $password)
     {
@@ -97,9 +110,12 @@ class User extends Api
 
     /**
      * Begin setting up CloudFlare two-factor authentication with a given telephone number
-     * @param int $country_code           The country code of your mobile phone number
+     *
+     * @param int    $country_code        The country code of your mobile phone number
      * @param string $mobile_phone_number Your mobile phone number
      * @param string $current_password    Your current CloudFlare password
+     *
+     * @return array
      */
     public function initialize_two_factor_authentication($country_code, $mobile_phone_number, $current_password)
     {
@@ -113,7 +129,10 @@ class User extends Api
 
     /**
      * Finish setting up CloudFlare two-factor authentication with a given telephone number
+     *
      * @param int $auth_token The token provided by the two-factor authenticator
+     *
+     * @return array
      */
     public function finalize_two_factor_authentication($auth_token)
     {
@@ -125,7 +144,10 @@ class User extends Api
 
     /**
      * Disable two-factor authentication for your CloudFlare user account
+     *
      * @param int The token provided by the two-factor authenticator
+     *
+     * @return array
      */
     public function disable_two_factor_authentication($auth_token)
     {

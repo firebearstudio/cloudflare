@@ -46,24 +46,26 @@ class Dns extends Api
     /**
      * List DNS Records (permission needed: #dns_records:read)
      * List, search, sort, and filter a zones' DNS records.
+     *
      * @param string       $zone_identifier
      * @param string|null  $type                      DNS record type (A, AAAA, CNAME, TXT, SRV, LOC, MX, NS, SPF)
      * @param string|null  $name                      DNS record name
      * @param string|null  $content                   DNS record content
-     * @param string|null  $vanity_name_server_record Flag for records that were created for the vanity name server feature (true, false)
      * @param int|null     $page                      Page number of paginated results
      * @param int|null     $per_page                  Number of DNS records per page
      * @param string|null  $order                     Field to order records by (type, name, content, ttl, proxied)
      * @param string|null  $direction                 Direction to order domains (asc, desc)
-     * @param string|null  $match                     Whether to match all search requirements or at least one (any) (any, all)
+     * @param string|null  $match                     Whether to match all search requirements or at least one (any)
+     *                                                (any, all)
+     *
+     * @return array
      */
-    public function list_records($zone_identifier, $type = null, $name = null, $content = null, $vanity_name_server_record = null, $page = null, $per_page = null, $order = null, $direction = null, $match = null)
+    public function list_records($zone_identifier, $type = null, $name = null, $content = null, $page = null, $per_page = null, $order = null, $direction = null, $match = null)
     {
         $data = array(
             'type'                      => $type,
             'name'                      => $name,
             'content'                   => $content,
-            'vanity_name_server_record' => $vanity_name_server_record,
             'page'                      => $page,
             'per_page'                  => $per_page,
             'order'                     => $order,

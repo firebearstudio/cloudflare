@@ -369,7 +369,7 @@ class Settings extends Api
      * @param string      $zone_identifier API item identifier tag
      * @param string|null $value           Value of the zone setting (default: on)
      */
-    public function change_always_on($zone_identifier, $value = null)
+    public function change_always_online($zone_identifier, $value = null)
     {
         $data = array(
             'value' => $value
@@ -552,6 +552,9 @@ class Settings extends Api
         $data = array(
             'value' => $value
         );
+
+        $data['value']['strip_uri'] = boolval($data['value']['strip_uri']);
+        
         return $this->patch('zones/' . $zone_identifier . '/settings/mobile_redirect', $data);
     }
 

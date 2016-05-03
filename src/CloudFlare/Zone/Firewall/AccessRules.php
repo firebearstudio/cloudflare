@@ -56,20 +56,25 @@ class AccessRules extends Api
     /**
      * Create access rule (permission needed: #zone:edit)
      * Make a new IP, IP range, or country access rule for the zone.
-     * Note: If you would like to create an access rule that applies across all of your owned zones, use the user or organization firewall endpoints as appropriate.
+     * Note: If you would like to create an access rule that applies across all of your owned zones,
+     * use the user or organization firewall endpoints as appropriate.
+     * 
      * @param string      $zone_id
      * @param string      $mode          The action to apply to a matched request
-     * @param object      $configuration Rule configuration
-     * @param string|null $notes         A personal note about the rule. Typically used as a reminder or explanation for the rule.
+     * @param array      $configuration  Rule configuration
+     * @param string|null $notes         A personal note about the rule. Typically used as a reminder or
+     *                                   explanation for the rule.
+     *
+     * @return mixed
      */
-    public function create($zone_id, $mode, $configuration, $notes = null)
+    public function create($zoneId, $mode, $configuration, $notes = null)
     {
         $data = array(
             'mode'          => $mode,
             'configuration' => $configuration,
             'notes'         => $notes
         );
-        return $this->post('/zones/' . $zone_id . '/firewall/access_rules/rules', $data);
+        return $this->post('/zones/' . $zoneId . '/firewall/access_rules/rules', $data);
     }
 
     /**
