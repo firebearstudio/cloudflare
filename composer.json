@@ -1,5 +1,5 @@
 {
-    "name": "firebear/cloudflare",
+    "name": "firebearstudio/cloudflare",
     "description": "Cloudflare API V4 PHP wrapper",
     "license": "MIT",
     "keywords": ["cloudflare", "api"],
